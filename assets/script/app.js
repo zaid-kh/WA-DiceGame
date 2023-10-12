@@ -1,9 +1,15 @@
 let score1 = 0; // track player1's score
-let score2 = 0; // track player1's score
+let score2 = 0; // track player2's score
 let target = 100; // target score
 let die1 = 0;
 let die2 = 0;
 let currentPlayer = 1;
+// todo: add temporary value of HOLD -> sum player's points until next switch
+
+const die1Img = document.querySelector("#die1Img");
+die1Img.setAttribute("src", `assets/images/dice-6.png`);
+const die2Img = document.querySelector("#die2Img");
+die2Img.setAttribute("src", `assets/images/dice-6.png`);
 
 function reloadPage() {
   window.location.reload();
@@ -29,7 +35,12 @@ function rollDice() {
   ) {
     die1 = rollDie();
     console.log(`Player ${currentPlayer} rolled die1: `, die1);
+    die1Img.setAttribute("src", `assets/images/dice-${die1}.png`);
+    die1Img.setAttribute("alt", `image of die-${die1}`);
     die2 = rollDie();
+    die2Img.setAttribute("src", `assets/images/dice-${die2}.png`);
+    die2Img.setAttribute("alt", `image of die-${die2}`);
+
     console.log(`Player ${currentPlayer} rolled die2: `, die2);
 
     if (isDouble()) {
@@ -43,8 +54,8 @@ function rollDice() {
         currentPlayer === 1 ? score1 : score2
       );
 
-      score1Span.textContent = score1;
-      score2Span.textContent = score2;
+      score1Text.textContent = score1;
+      score2Text.textContent = score2;
       if (score1 > target || score2 > target)
         alert(`Player ${currentPlayer} Won !`);
     }
@@ -53,13 +64,14 @@ function rollDice() {
 
 const rollBtn = document.querySelector("#roll");
 const holdBtn = document.querySelector("#hold");
-const score1Span = document.querySelector("#score1");
-const score2Span = document.querySelector("#score2");
+const score1Text = document.querySelector("#score1");
+const score2Text = document.querySelector("#score2");
 
 rollBtn.addEventListener("click", rollDice);
 
 function holdListener() {
   //todo: implement style changes
+  // current(1|2).text = 0
   switchPlayer();
 }
 

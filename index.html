@@ -11,13 +11,31 @@
     <h1>Dice Game</h1>
   </header>
   <body>
-    <section>
-      <p>Player 1: <span class="score" id="score1">0</span></p>
-      <p>Player 2: <span class="score" id="score2">0</span></p>
-
-      <button id="roll">Roll Dice</button>
-      <button id="hold">Hold</button>
-    </section>
+    <main>
+      <section id="player1">
+        <h2>Player 1</h2>
+        <h1 class="score" id="score1">0</h1>
+        <div>
+          Current
+          <h3 class="current" id="current1">0</h3>
+        </div>
+      </section>
+      <section class="mid">
+        <button id="newGame">New Game</button>
+        <img src="" alt="first die" class="diceImg" id="die1Img" />
+        <img src="" alt="second die" class="diceImg" id="die2Img" />
+        <button id="roll">Roll Dice</button>
+        <button id="hold">Hold</button>
+      </section>
+      <section id="player2">
+        <h2>Player 2</h2>
+        <h1 class="score" id="score2">0</h1>
+        <div>
+          Current
+          <h3 class="current" id="current2">0</h3>
+        </div>
+      </section>
+    </main>
   </body>
   <footer></footer>
 </html>
