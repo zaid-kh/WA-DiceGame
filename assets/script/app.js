@@ -4,7 +4,8 @@ let target = 100; // target score
 let die1 = 0;
 let die2 = 0;
 let currentPlayer = 1;
-// todo: add temporary value of HOLD -> sum player's points until next switch
+let hold1 = 0;
+let hold2 = 0;
 
 const die1Img = document.querySelector("#die1Img");
 die1Img.setAttribute("src", `assets/images/dice-6.png`);
@@ -23,6 +24,11 @@ function rollDie() {
   return Math.floor(Math.random() * 6) + 1;
 }
 function switchPlayer() {
+  // add round score to total score
+  currentPlayer === 1 ? (hold1 = 0) : (hold2 = 0);
+  score1Text.textContent = score1;
+  score2Text.textContent = score2;
+  // make the switch
   currentPlayer = currentPlayer === 1 ? 2 : 1;
   resetDice();
 }
@@ -46,18 +52,26 @@ function rollDice() {
     if (isDouble()) {
       console.log(`Player ${currentPlayer} got a double!`);
       currentPlayer === 1 ? (score1 = 0) : (score2 = 0);
+      currentPlayer === 1 ? (hold1 = 0) : (hold2 = 0);
       switchPlayer();
     } else {
-      currentPlayer === 1 ? (score1 += die1 + die2) : (score2 += die1 + die2);
+      currentPlayer === 1 ? (hold1 += die1 + die2) : (hold2 += die1 + die2);
       console.log(
-        `Player ${currentPlayer} current score: `,
-        currentPlayer === 1 ? score1 : score2
+        `Player ${currentPlayer} held score: `,
+        currentPlayer === 1 ? hold1 : hold2
       );
 
-      score1Text.textContent = score1;
-      score2Text.textContent = score2;
-      if (score1 > target || score2 > target)
+      current1Text.textContent = hold1;
+      current2Text.textContent = hold2;
+      if (score1 + hold1 > target || score2 + hold2 > target) {
+        score1 += hold1;
+        console.log("score1: ", score1);
+        score2 += hold2;
+        console.log("score2: ", score2);
+        score1Text.textContent = score1;
+        score2Text.textContent = score2;
         alert(`Player ${currentPlayer} Won !`);
+      }
     }
   }
 }
@@ -66,12 +80,13 @@ const rollBtn = document.querySelector("#roll");
 const holdBtn = document.querySelector("#hold");
 const score1Text = document.querySelector("#score1");
 const score2Text = document.querySelector("#score2");
+const current1Text = document.querySelector("#current1");
+const current2Text = document.querySelector("#current2");
 
 rollBtn.addEventListener("click", rollDice);
 
 function holdListener() {
-  //todo: implement style changes
-  // current(1|2).text = 0
+  currentPlayer === 1 ? (score1 += hold1) : (score2 += hold2);
   switchPlayer();
 }
 
