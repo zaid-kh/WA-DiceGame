@@ -26,8 +26,7 @@ function rollDie() {
 function switchPlayer() {
   // add round score to total score
   currentPlayer === 1 ? (hold1 = 0) : (hold2 = 0);
-  score1Text.textContent = score1;
-  score2Text.textContent = score2;
+  updateUI();
   // make the switch
   currentPlayer = currentPlayer === 1 ? 2 : 1;
   resetDice();
@@ -61,15 +60,13 @@ function rollDice() {
         currentPlayer === 1 ? hold1 : hold2
       );
 
-      current1Text.textContent = hold1;
-      current2Text.textContent = hold2;
+      updateUI();
       if (score1 + hold1 > target || score2 + hold2 > target) {
         score1 += hold1;
         console.log("score1: ", score1);
         score2 += hold2;
         console.log("score2: ", score2);
-        score1Text.textContent = score1;
-        score2Text.textContent = score2;
+        updateUI();
         setTimeout(() => {
           alert(`Player ${currentPlayer} Won !`);
         }, 100);
@@ -84,16 +81,18 @@ const score1Text = document.querySelector("#score1");
 const score2Text = document.querySelector("#score2");
 const current1Text = document.querySelector("#current1");
 const current2Text = document.querySelector("#current2");
+const newGameBtn = document.querySelector("#newGame");
 
 rollBtn.addEventListener("click", rollDice);
 
 function holdListener() {
-  currentPlayer === 1 ? (score1 += hold1) : (score2 += hold2);
-  console.log("score1: ", score1);
-  console.log("score2: ", score2);
-  score1Text.textContent = score1;
-  score2Text.textContent = score2;
-  switchPlayer();
+  if (score1 < target && score2 < target) {
+    currentPlayer === 1 ? (score1 += hold1) : (score2 += hold2);
+    console.log("score1: ", score1);
+    console.log("score2: ", score2);
+    updateUI();
+    switchPlayer();
+  }
 }
 
 holdBtn.addEventListener("click", holdListener);
@@ -101,3 +100,22 @@ holdBtn.addEventListener("click", holdListener);
 function isDoubleSix() {
   return die1 === 6 && die2 === 6;
 }
+
+function updateUI() {
+  current1Text.textContent = hold1;
+  current2Text.textContent = hold2;
+  score1Text.textContent = score1;
+  score2Text.textContent = score2;
+}
+
+function resetGame() {
+  currentPlayer = 1;
+  hold1 = 0;
+  hold2 = 0;
+  score1 = 0;
+  score2 = 0;
+  // update UI
+  updateUI();
+  resetDice();
+}
+newGameBtn.addEventListener("click", resetGame);
