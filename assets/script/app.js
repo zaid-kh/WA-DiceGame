@@ -49,7 +49,7 @@ function rollDice() {
 
     console.log(`Player ${currentPlayer} rolled die2: `, die2);
 
-    if (isDouble()) {
+    if (isDoubleSix()) {
       console.log(`Player ${currentPlayer} got a double!`);
       currentPlayer === 1 ? (score1 = 0) : (score2 = 0);
       currentPlayer === 1 ? (hold1 = 0) : (hold2 = 0);
@@ -70,7 +70,9 @@ function rollDice() {
         console.log("score2: ", score2);
         score1Text.textContent = score1;
         score2Text.textContent = score2;
-        alert(`Player ${currentPlayer} Won !`);
+        setTimeout(() => {
+          alert(`Player ${currentPlayer} Won !`);
+        }, 100);
       }
     }
   }
@@ -87,11 +89,15 @@ rollBtn.addEventListener("click", rollDice);
 
 function holdListener() {
   currentPlayer === 1 ? (score1 += hold1) : (score2 += hold2);
+  console.log("score1: ", score1);
+  console.log("score2: ", score2);
+  score1Text.textContent = score1;
+  score2Text.textContent = score2;
   switchPlayer();
 }
 
 holdBtn.addEventListener("click", holdListener);
 
-function isDouble() {
-  return die1 === die2;
+function isDoubleSix() {
+  return die1 === 6 && die2 === 6;
 }
